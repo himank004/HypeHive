@@ -1,38 +1,26 @@
 import { useState, useEffect } from "react";
 
 const Chatbot = () => {
-    const [tarsLoaded, setTarsLoaded] = useState(false); // Track if Tars is loaded
+    const [tarsLoaded, setTarsLoaded] = useState(false);
 
-    // Function to load the Tars chatbot script dynamically
-    const loadTarsChatbot = () => {
-        if (!tarsLoaded) {
-            const script = document.createElement("script");
-            script.id = "tars-widget-script";
-            script.type = "text/javascript";
-            script.src = "https://tars-file-upload.s3.amazonaws.com/bulb/js/widget.js";
-            script.onload = () => {
-                setTarsLoaded(true); // Mark Tars as loaded
-
-                // Inject custom CSS to change the bot's avatar image
-                const style = document.createElement("style");
-                style.innerHTML = `
-                    #tars-widget .bot-avatar {
-                        background-image: url('https://your-image-url.com/your-image.png') !important;
-                        background-size: cover;
-                        background-position: center;
-                    }
-                `;
-                document.head.appendChild(style);
-            };
-            document.body.appendChild(script);
-            window.tarsSettings = { convid: "Y3LPi8" }; // Set the conversation ID from Tars
-        }
-    };
-
-    // Load the Tars chatbot once the component is mounted
     useEffect(() => {
-        loadTarsChatbot();
-    }, []);
+        if (!tarsLoaded) {
+            (function(){
+                var js, fs, d = document, id = "tars-widget-script", b = "https://tars-file-upload.s3.amazonaws.com/bulb/";
+                if (!d.getElementById(id)) {
+                    js = d.createElement("script");
+                    js.id = id;
+                    js.type = "text/javascript";
+                    js.src = b + "js/widget.js";
+                    js.onload = () => setTarsLoaded(true);
+                    fs = d.getElementsByTagName("script")[0];
+                    fs.parentNode.insertBefore(js, fs);
+                }
+            })();
+            
+            window.tarsSettings = { convid: "Y3LPi8" };
+        }
+    }, [tarsLoaded]);
 
     return <div className="relative"></div>;
 };
