@@ -81,7 +81,7 @@ const ProductPage = () => {
           <div className="text-white">
             <h2 className="text-2xl font-bold">{product.name}</h2>
             <p className="mt-4">{product.description}</p> {/* Product description */}
-            <p className="mt-4 text-lg font-semibold">₹{product.price}</p>
+            <p className="mt-4 text-lg font-semibold">${product.price}</p>
             <button
               onClick={handleAddToCart} // Trigger the addToCart logic with login check
               className="mt-4 bg-emerald-500 text-white px-4 py-2 rounded-full"
